@@ -1,14 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>RailsGemstore</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+<!doctype html>
 
-<%= yield %>
-
-</body>
+<html ng-app="store">
+  <head>
+    <title>Rails Gem Store</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body ng-controller="StoreController as store">
+    <h1 class="text-center">Flatlander Crafted Gems</h1>
+    <h2 class="text-center">- an Angular store -</h2>
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="product in store.products">
+        <product-title></product-title>
+        <product-panels></product-panels>
+      </li>
+    </ul>
+  </body>
 </html>
