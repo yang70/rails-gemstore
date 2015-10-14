@@ -11,8 +11,7 @@
 // about supported directives.
 //
 //= require angular
-//= require products
-//= require app
+//= require gemStore/app
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
