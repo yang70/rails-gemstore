@@ -3,10 +3,12 @@
 
 one:
   stars: 1
-  body: MyString
-  author: MyString
+  body: Ruby Review
+  author: ruby@example.com
+  product: ruby
 
 two:
-  stars: 1
-  body: MyString
-  author: MyString
+  stars: 2
+  body: Diamond Review
+  author: diamond@example.com
+  product: diamond

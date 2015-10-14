@@ -1,16 +1,14 @@
 # Read about fixtures at
 # http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  id: 1
+ruby:
   name: Ruby
   price: 9.99
   description: Ruby Description
-  canPurchase: false
+  canPurchase: true
 
-two:
-  id: 2
+diamond:
   name: Diamond
   price: 10.00
   description: Diamond Description
-  canPurchase: false
+  canPurchase: true

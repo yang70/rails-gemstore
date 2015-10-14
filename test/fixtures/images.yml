@@ -2,7 +2,9 @@
 # http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  image_url: MyString
+  image_url: url_1
+  product: ruby
 
 two:
-  image_url: MyString
+  image_url: url_2
+  product: diamond
