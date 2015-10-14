@@ -2,13 +2,15 @@
 # http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  name: MyString
+  id: 1
+  name: Ruby
   price: 9.99
-  description: MyText
+  description: Ruby Description
   canPurchase: false
 
 two:
-  name: MyString
-  price: 9.99
-  description: MyText
+  id: 2
+  name: Diamond
+  price: 10.00
+  description: Diamond Description
   canPurchase: false
