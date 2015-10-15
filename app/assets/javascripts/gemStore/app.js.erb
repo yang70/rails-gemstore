@@ -35,12 +35,5 @@
         $scope.newProduct = {};
       })
     }
-
-    this.update = function(product){
-      $http.patch("/products/" + product.id, { product: product })
-        .success(function(data){
-          product.editing = false;
-        })
-    }
   }]);
 })();
