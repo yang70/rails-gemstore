@@ -10,8 +10,14 @@
   <body ng-controller="StoreController as store">
     <h1 class="text-center">Flatlander Crafted Gems</h1>
     <h2 class="text-center">- an Angular store -</h2>
+    <div>
+      <form name="productForm" ng-controller="ProductController as productCtrl" ng-submit="productCtrl.create(newProduct)" novalidate>
+        <input ng-model="newProduct.name" type="text" placeholder="Gem Name" title="Name" />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
     <ul class="list-group">
-      <li class="list-group-item" ng-repeat="product in store.products">
+      <li class="list-group-item" ng-repeat="product in products">
         <product-title></product-title>
         <product-panels></product-panels>
       </li>

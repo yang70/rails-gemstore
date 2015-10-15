@@ -4,19 +4,16 @@
   var app = angular.module('store', ['store-products']);
 
   app.config(['$httpProvider', function($httpProvider){
-    $httpProvider.defaults.headers.common.["X-CSRF-Token"] =
-      document.querySelector('meta[name=csrf-token]').content;
-      $httpProvider.defaults.headers.common.Accept = 'application/json';
-  }])
+    $httpProvider.defaults.headers.common["X-CSRF-Token"] = document.querySelector('meta[name=csrf-token]').content;
+    $httpProvider.defaults.headers.common.Accept = 'application/json';
+  }]);
 
-  app.controller('StoreController', ['$http', function($http){
-    var store = this;
-
-    store.products = [];
+  app.controller('StoreController', ['$scope', '$http', function($scope, $http){
+    $scope.products = [];
 
     $http.get("/products").success(function(data){
-      store.products = data;
-      console.log(data);
+      $scope.products = data.products;
+      console.log($scope.products);
     });
   }]);
 
@@ -29,4 +26,21 @@
       this.review = {};
     };
   });
+
+  app.controller('ProductController', ['$http', '$scope', function($http, $scope){
+
+    this.create = function(product){
+      $http.post("/products", { product: product }).success(function(data){
+        $scope.products.unshift(data.product);
+        $scope.newProduct = {};
+      })
+    }
+
+    this.update = function(product){
+      $http.patch("/products/" + product.id, { product: product })
+        .success(function(data){
+          product.editing = false;
+        })
+    }
+  }]);
 })();
