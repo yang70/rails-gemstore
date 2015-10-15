@@ -37,8 +37,7 @@
     }
   }]);
 
-  angular.module('public.ctrl.signIn', []).controller('signInCtrl', ['Auth', '$scope', '$location',
-    function(Auth, $scope, $location) {
+  app.controller('signInCtrl', ['Auth', '$scope', '$location', function(Auth, $scope, $location) {
       this.credentials = { email: '', password: '' };
 
       this.signIn = function() {
@@ -51,6 +50,5 @@
           alert('Error in signing in user!');
         });
       }
-    }
-  ]);
+  }]);
 })();
