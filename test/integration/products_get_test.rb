@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ProductsCrudTest < ActionDispatch::IntegrationTest
+class ProductsGetTest < ActionDispatch::IntegrationTest
   setup { host! 'api.example.com' }
 
   test 'returns all products' do

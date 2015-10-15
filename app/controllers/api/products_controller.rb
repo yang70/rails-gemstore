@@ -17,8 +17,9 @@ module API
     end
 
     def update
+      product = Product.find(params[:id])
       if product.update(product_params)
-        render json: product
+        render json: product, status: 200
       else
         render json: product.errors, status: :unprocessable_entity
       end
@@ -27,15 +28,16 @@ module API
     def create
       product = Product.new(product_params)
       if product.save
-        render json: product
+        render json: product, status: 201, location: [:api, product]
       else
-        render json: product.errors, status: :unprocessable_entity
+        render json: product.errors, status: 422
       end
     end
 
     def destroy
+      product = Product.find(params[:id])
       product.destroy
-      render json: { message: "destroyed" }
+      head 204
     end
 
     private
