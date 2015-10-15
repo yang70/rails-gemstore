@@ -1,6 +1,7 @@
 # Rails Gem Store - An Exercise Deploying An Angular JS Application Using Rails As A Back-End API
 
 by [Matthew Yang](http://matthewgyang.com)
+[![Build Status](https://travis-ci.org/yang70/rails-gemstore.svg?branch=master)](https://travis-ci.org/yang70/rails-gemstore)
 
 ## Description
 This Rails application is an extension on a previous Angular JS exercise/application that can be seen [here](https://github.com/yang70/gem-store).  The objective was to take that application and deploy it to Heroku within a Rails application, using Rails as the back-end framework.
