@@ -1,6 +1,7 @@
 # Rails Gem Store - An Exercise Deploying An Angular JS Application Using Rails As A Back-End API
 
 by [Matthew Yang](http://matthewgyang.com)
+
 [![Build Status](https://travis-ci.org/yang70/rails-gemstore.svg?branch=master)](https://travis-ci.org/yang70/rails-gemstore)
 
 ## Description
