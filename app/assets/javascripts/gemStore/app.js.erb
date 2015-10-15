@@ -1,7 +1,7 @@
 //= require gemStore/products/products
 
 (function(){
-  var app = angular.module('store', ['store-products']);
+  var app = angular.module('store', ['store-products', 'Devise']);
 
   app.config(['$httpProvider', function($httpProvider){
     $httpProvider.defaults.headers.common["X-CSRF-Token"] = document.querySelector('meta[name=csrf-token]').content;
@@ -36,4 +36,21 @@
       })
     }
   }]);
+
+  angular.module('public.ctrl.signIn', []).controller('signInCtrl', ['Auth', '$scope', '$location',
+    function(Auth, $scope, $location) {
+      this.credentials = { email: '', password: '' };
+
+      this.signIn = function() {
+        // Code to use 'angular-devise' component
+        Auth.login(this.credentials).then(function(user) {
+          $location.path("/");
+          alert('Successfully signed in user!')
+        }, function(error) {
+          console.info('Error in authenticating user!');
+          alert('Error in signing in user!');
+        });
+      }
+    }
+  ]);
 })();
