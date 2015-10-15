@@ -26,3 +26,5 @@ product_names.each do |name|
 
   index += 1
 end
+
+User.create(email: "user@example.com", password: "password", password_confirmation: "password")

@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require angular
+//= require angular-devise
 //= require gemStore/app
 //= require jquery
 //= require jquery_ujs
