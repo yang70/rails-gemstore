@@ -3,6 +3,12 @@
 (function(){
   var app = angular.module('store', ['store-products']);
 
+  app.config(['$httpProvider', function($httpProvider){
+    $httpProvider.defaults.headers.common.["X-CSRF-Token"] =
+      document.querySelector('meta[name=csrf-token]').content;
+      $httpProvider.defaults.headers.common.Accept = 'application/json';
+  }])
+
   app.controller('StoreController', ['$http', function($http){
     var store = this;
 

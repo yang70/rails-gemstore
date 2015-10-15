@@ -1,0 +1,6 @@
+language: ruby
+rvm:
+- 2.2.3
+before_script:
+  - RAILS_ENV=test rake db:create
+  - RAILS_ENV=test rake db:migrate
