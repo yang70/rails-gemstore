@@ -3,11 +3,6 @@
 (function(){
   var app = angular.module('store', ['store-products', 'Devise']);
 
-  app.config(['$httpProvider', function($httpProvider){
-    $httpProvider.defaults.headers.common["X-CSRF-Token"] = document.querySelector('meta[name=csrf-token]').content;
-    $httpProvider.defaults.headers.common.Accept = 'application/json';
-  }]);
-
   app.controller('StoreController', ['$scope', '$http', function($scope, $http){
     $scope.products = [];
 
@@ -29,15 +24,12 @@
   app.controller('ProductController', ['Auth', '$http', '$scope', function(Auth, $http, $scope){
 
     this.create = function(product){
-      Auth.currentUser().then(function(user){
-        $http.post("/products", { product: product }).success(function(data){
-          $scope.products.unshift(data.product);
-          $scope.newProduct = {};
-          console.log(Auth)
-        })
-      }, function(error){
+      $http.post("/products", { product: product }).success(function(data){
+        $scope.products.unshift(data.product);
         $scope.newProduct = {};
+      }).error(function(error, status){
         console.log(error);
+        console.log(status);
       });
     }
   }]);
@@ -45,35 +37,41 @@
   app.controller('signInCtrl', ['Auth', '$scope', '$location', function(Auth, $scope, $location) {
       this.credentials = { email: '', password: '' };
 
-      this.signIn = function() {
-        // Code to use 'angular-devise' component
-        Auth.login(this.credentials).then(function(user) {
-          $location.path("/");
-          alert('Successfully signed in user!')
-        }, function(error) {
-          console.info('Error in authenticating user!');
-          alert('Error in signing in user!');
-        });
-      }
+    $scope.showSignIn = false;
+
+    this.signIn = function() {
+      // Code to use 'angular-devise' component
+      Auth.login(this.credentials).then(function(user) {
+        alert('Successfully signed in user!')
+        this.credentials = { email: '', password: '' };
+      }, function(error) {
+        console.info('Error in authenticating user!');
+        alert('Error in signing in user!');
+      });
+    }
   }]);
 
   app.controller('sessionCtrl', ['Auth', '$scope', '$location', function(Auth, $scope, $location) {
 
     Auth.currentUser().then(function(user){
+      console.log("is authenticated");
       $scope.isAuthenticated = true;
     }, function(error){
       console.log(error);
     });
 
     $scope.$on('devise:login', function(event, currentUser){
+      console.log("devise login");
       $scope.isAuthenticated = true;
     });
 
     $scope.$on('devise:new-session', function(event, currentUser){
+      console.log('devise new session');
       $scope.isAuthenticated = true;
     });
 
     $scope.$on('devise:logout', function(event, oldCurrentUser){
+      console.log('devise log out')
       $scope.isAuthenticated = false;
     });
 
