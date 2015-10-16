@@ -27,13 +27,19 @@
     };
   });
 
-  app.controller('ProductController', ['$http', '$scope', function($http, $scope){
+  app.controller('ProductController', ['Auth', '$http', '$scope', function(Auth, $http, $scope){
 
     this.create = function(product){
-      $http.post("/products", { product: product }).success(function(data){
-        $scope.products.unshift(data.product);
+      Auth.currentUser().then(function(user){
+        $http.post("/products", { product: product }).success(function(data){
+          $scope.products.unshift(data.product);
+          $scope.newProduct = {};
+          console.log(Auth)
+        })
+      }, function(error){
         $scope.newProduct = {};
-      })
+        console.log(error);
+      });
     }
   }]);
 
@@ -44,10 +50,24 @@
         // Code to use 'angular-devise' component
         Auth.login(this.credentials).then(function(user) {
           $location.path("/");
+          $scope.isAuthorized = true;
           alert('Successfully signed in user!')
         }, function(error) {
           console.info('Error in authenticating user!');
           alert('Error in signing in user!');
+        });
+      }
+  }]);
+
+  app.controller('logOutCtrl', ['Auth', '$scope', '$location', function(Auth, $scope, $location) {
+
+      this.logout = function() {
+        var config = { headers: { 'X-HTTP-Method-Override': 'DELETE' } };
+        Auth.logout(config).then(function(oldUser) {
+          $scope.isAuthorized = false;
+          alert("Successfully logged out!");
+        }, function(error) {
+          // An error occurred logging out.
         });
       }
   }]);
