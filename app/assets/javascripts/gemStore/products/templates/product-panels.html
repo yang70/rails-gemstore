@@ -22,13 +22,13 @@
     <h4>Reviews</h4>
     <blockquote ng-repeat="review in product.reviews">
       <b>Stars: {{review.stars}}</b>
-      {{review.body}}
-      <cite>by: {{review.author}} on {{review.createdOn | date}}</cite>
+      <p>{{review.body}}</p>
+      <cite>by: {{review.author}}</cite>
     </blockquote>
     <form name="reviewForm" ng-controller="ReviewController as reviewCtrl" ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)" novalidate>
       <blockquote>
         <b>Stars: {{reviewCtrl.review.stars}}</b>
-        {{reviewCtrl.review.body}}
+        <p>{{reviewCtrl.review.body}}</p>
         <cite class="clearfix">by: {{reviewCtrl.review.author}}</cite>
       </blockquote>
       <h4>Submit a Review</h4>
@@ -43,7 +43,6 @@
       <fieldset class="form-group">
         <input ng-model="reviewCtrl.review.author" type="email" class="form-control" placeholder="yourEmail@example.com" title="Email" required/>
       </fieldset>
-      <!-- <div>reviewForm is {{reviewForm.$valid}}</div> -->
       <input type="submit" value="Submit" />
     </form>
   </div>

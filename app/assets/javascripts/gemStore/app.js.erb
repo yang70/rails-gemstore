@@ -3,11 +3,6 @@
 (function(){
   var app = angular.module('store', ['store-products', 'Devise']);
 
-  // app.config(['$httpProvider', function($httpProvider){
-  //   $httpProvider.defaults.headers.common["X-CSRF-Token"] = document.querySelector('meta[name=csrf-token]').content;
-  //   $httpProvider.defaults.headers.common.Accept = 'application/json';
-  // }]);
-
   app.controller('StoreController', ['$scope', '$http', function($scope, $http){
     $scope.products = [];
 
@@ -16,15 +11,21 @@
     });
   }]);
 
-  app.controller('ReviewController', function(){
+  app.controller('ReviewController', ['$http', '$scope', function($http, $scope){
+
     this.review = {};
 
     this.addReview = function(product){
-      this.review.createdOn = Date.now();
-      product.reviews.push(this.review);
-      this.review = {};
+      this.review.product_id = product.id;
+      $http.post("/reviews", { review: this.review }).success(function(data){
+        product.reviews.push(data.review);
+        $scope.review = {};
+      }).error(function(error, status){
+        console.log(error);
+        console.log(status);
+      })
     };
-  });
+  }]);
 
   app.controller('ProductController', ['Auth', '$http', '$scope', function(Auth, $http, $scope){
 
