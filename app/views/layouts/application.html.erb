@@ -26,11 +26,10 @@
           </form>
       </div>
     </div>
-    <div ng-controller="logOutCtrl as session">
+    <div ng-controller="sessionCtrl as session">
       <button ng-click="session.logout()">Logout</button>
     </div>
-    <button ng-click="$scope.isAuthorized = !$scope.isAuthorized">Auth Toggle</button>
-    <div ng-show="$scope.isAuthorized">
+    <div ng-show="$scope.isAuthenticated">
       <form name="productForm" ng-controller="ProductController as productCtrl" ng-submit="productCtrl.create(newProduct)" novalidate>
         <input ng-model="newProduct.name" type="text" placeholder="Gem Name" title="Name" />
         <input type="submit" value="Submit" />

@@ -13,7 +13,6 @@
 
     $http.get("/products").success(function(data){
       $scope.products = data.products;
-      console.log($scope.products);
     });
   }]);
 
@@ -50,7 +49,6 @@
         // Code to use 'angular-devise' component
         Auth.login(this.credentials).then(function(user) {
           $location.path("/");
-          $scope.isAuthorized = true;
           alert('Successfully signed in user!')
         }, function(error) {
           console.info('Error in authenticating user!');
@@ -59,16 +57,33 @@
       }
   }]);
 
-  app.controller('logOutCtrl', ['Auth', '$scope', '$location', function(Auth, $scope, $location) {
+  app.controller('sessionCtrl', ['Auth', '$scope', '$location', function(Auth, $scope, $location) {
 
-      this.logout = function() {
-        var config = { headers: { 'X-HTTP-Method-Override': 'DELETE' } };
-        Auth.logout(config).then(function(oldUser) {
-          $scope.isAuthorized = false;
-          alert("Successfully logged out!");
-        }, function(error) {
-          // An error occurred logging out.
-        });
-      }
+    Auth.currentUser().then(function(user){
+      $scope.isAuthenticated = true;
+    }, function(error){
+      console.log(error);
+    });
+
+    $scope.$on('devise:login', function(event, currentUser){
+      $scope.isAuthenticated = true;
+    });
+
+    $scope.$on('devise:new-session', function(event, currentUser){
+      $scope.isAuthenticated = true;
+    });
+
+    $scope.$on('devise:logout', function(event, oldCurrentUser){
+      $scope.isAuthenticated = false;
+    });
+
+    this.logout = function() {
+      // var config = { headers: { 'X-HTTP-Method-Override': 'DELETE' } };
+      Auth.logout().then(function(oldUser) {
+        alert("Successfully logged out!");
+      }, function(error) {
+        alert("Error logging out.");
+      });
+    }
   }]);
 })();
