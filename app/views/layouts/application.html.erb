@@ -30,7 +30,7 @@
       </div>
     </div>
     <div ng-controller="sessionCtrl as session" ng-show="isAuthenticated">
-      <input class="btn btn-default" value="Log-out" ng-click="session.logout()" />
+      <button class="btn btn-default" ng-click="session.logout()" />Logout</button>
     </div>
     <div ng-controller="sessionCtrl" ng-show="isAuthenticated">
       <form name="productForm" ng-controller="ProductController as productCtrl" ng-submit="productCtrl.create(newProduct)" novalidate>
