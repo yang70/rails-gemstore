@@ -3,6 +3,11 @@
 (function(){
   var app = angular.module('store', ['store-products', 'Devise']);
 
+  // app.config(['$httpProvider', function($httpProvider){
+  //   $httpProvider.defaults.headers.common["X-CSRF-Token"] = document.querySelector('meta[name=csrf-token]').content;
+  //   $httpProvider.defaults.headers.common.Accept = 'application/json';
+  // }]);
+
   app.controller('StoreController', ['$scope', '$http', function($scope, $http){
     $scope.products = [];
 
@@ -43,12 +48,15 @@
       // Code to use 'angular-devise' component
       Auth.login(this.credentials).then(function(user) {
         alert('Successfully signed in user!')
-        this.credentials = { email: '', password: '' };
       }, function(error) {
         console.info('Error in authenticating user!');
         alert('Error in signing in user!');
       });
     }
+
+    this.resetSignIn = function(){
+      this.credentials = { email: '', password: '' }
+    };
   }]);
 
   app.controller('sessionCtrl', ['Auth', '$scope', '$location', function(Auth, $scope, $location) {
