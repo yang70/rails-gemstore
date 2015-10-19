@@ -11,21 +11,21 @@
     });
   }]);
 
-  app.controller('ReviewController', ['$http', '$scope', function($http, $scope){
+  // app.controller('ReviewController', ['$http', '$scope', function($http, $scope){
 
-    this.review = {};
+  //   this.review = {};
 
-    this.addReview = function(product){
-      this.review.product_id = product.id;
-      $http.post("/reviews", { review: this.review }).success(function(data){
-        product.reviews.push(data.review);
-        $scope.review = {};
-      }).error(function(error, status){
-        console.log(error);
-        console.log(status);
-      })
-    };
-  }]);
+  //   this.addReview = function(product){
+  //     this.review.product_id = product.id;
+  //     $http.post("/reviews", { review: this.review }).success(function(data){
+  //       product.reviews.push(data.review);
+  //       $scope.review = {};
+  //     }).error(function(error, status){
+  //       console.log(error);
+  //       console.log(status);
+  //     })
+  //   };
+  // }]);
 
   app.controller('ProductController', ['Auth', '$http', '$scope', function(Auth, $http, $scope){
 
@@ -38,6 +38,17 @@
         console.log(status);
       });
     }
+
+    this.addReview = function(product){
+      product.newReview.product_id = product.id;
+      $http.post("/reviews", { review: product.newReview }).success(function(data){
+        product.reviews.push(data.review);
+        product.newReview = {};
+      }).error(function(error, status){
+        console.log(error);
+        console.log(status);
+      })
+    };
   }]);
 
   app.controller('signInCtrl', ['Auth', '$scope', '$location', function(Auth, $scope, $location) {
