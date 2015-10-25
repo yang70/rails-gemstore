@@ -24,8 +24,9 @@
       <b>Stars: {{review.stars}}</b>
       <p>{{review.body}}</p>
       <cite>by: {{review.author}}</cite>
-      <button class="btn btn-default" ></button>
+      <button class="btn btn-default" on-click="deleteReview(product, review)">Delete</button>
     </blockquote>
+
     <form name="reviewForm" ng-submit="reviewForm.$valid && productCtrl.addReview(product)" ng-controller="ProductController as productCtrl" novalidate>
       <blockquote>
         <b>Stars: {{product.newReview.stars}}</b>
@@ -46,5 +47,6 @@
       </fieldset>
       <input type="submit" value="Submit" />
     </form>
+
   </div>
 </section>

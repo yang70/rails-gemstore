@@ -49,6 +49,22 @@
         console.log(status);
       })
     };
+
+    $scope.deleteReview = function(product, review) {
+      alert("hello");
+      $http({
+        method: 'DELETE',
+        url: '/reviews/' + review.id
+      })
+        .success(function() {
+          alert("Review deleted")
+          product.reviews.splice(product.reviews.indexOf(review), 1);
+        })
+        .error(function(data, status) {
+          console.log(data);
+          console.log(status);
+        });
+    };
   }]);
 
   app.controller('signInCtrl', ['Auth', '$scope', '$location', function(Auth, $scope, $location) {
