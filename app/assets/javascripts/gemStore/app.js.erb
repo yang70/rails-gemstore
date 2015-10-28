@@ -1,32 +1,122 @@
 //= require gemStore/products/products
 
 (function(){
-  var app = angular.module('store', ['store-products']);
+  var app = angular.module('store', ['store-products', 'Devise']);
 
-  app.config(['$httpProvider', function($httpProvider){
-    $httpProvider.defaults.headers.common.["X-CSRF-Token"] =
-      document.querySelector('meta[name=csrf-token]').content;
-      $httpProvider.defaults.headers.common.Accept = 'application/json';
-  }])
-
-  app.controller('StoreController', ['$http', function($http){
-    var store = this;
-
-    store.products = [];
+  app.controller('StoreController', ['$scope', '$http', function($scope, $http){
+    $scope.products = [];
 
     $http.get("/products").success(function(data){
-      store.products = data;
-      console.log(data);
+      $scope.products = data.products;
     });
   }]);
 
-  app.controller('ReviewController', function(){
-    this.review = {};
+  // app.controller('ReviewController', ['$http', '$scope', function($http, $scope){
+
+  //   this.review = {};
+
+  //   this.addReview = function(product){
+  //     this.review.product_id = product.id;
+  //     $http.post("/reviews", { review: this.review }).success(function(data){
+  //       product.reviews.push(data.review);
+  //       $scope.review = {};
+  //     }).error(function(error, status){
+  //       console.log(error);
+  //       console.log(status);
+  //     })
+  //   };
+  // }]);
+
+  app.controller('ProductController', ['Auth', '$http', '$scope', function(Auth, $http, $scope){
+
+    this.create = function(product){
+      $http.post("/products", { product: product }).success(function(data){
+        $scope.products.unshift(data.product);
+        $scope.newProduct = {};
+      }).error(function(error, status){
+        console.log(error);
+        console.log(status);
+      });
+    }
 
     this.addReview = function(product){
-      this.review.createdOn = Date.now();
-      product.reviews.push(this.review);
-      this.review = {};
+      product.newReview.product_id = product.id;
+      $http.post("/reviews", { review: product.newReview }).success(function(data){
+        product.reviews.push(data.review);
+        product.newReview = {};
+      }).error(function(error, status){
+        console.log(error);
+        console.log(status);
+      })
     };
-  });
+
+    $scope.deleteReview = function(product, review) {
+      $http({
+        method: 'DELETE',
+        url: '/reviews/' + review.id
+      })
+        .success(function() {
+          alert("Review deleted")
+          product.reviews.splice(product.reviews.indexOf(review), 1);
+        })
+        .error(function(data, status) {
+          console.log(data);
+          console.log(status);
+        });
+    };
+  }]);
+
+  app.controller('signInCtrl', ['Auth', '$scope', '$location', function(Auth, $scope, $location) {
+      this.credentials = { email: '', password: '' };
+
+    $scope.showSignIn = false;
+
+    this.signIn = function() {
+      // Code to use 'angular-devise' component
+      Auth.login(this.credentials).then(function(user) {
+        alert('Successfully signed in user!')
+      }, function(error) {
+        console.info('Error in authenticating user!');
+        alert('Error in signing in user!');
+      });
+    }
+
+    this.resetSignIn = function(){
+      this.credentials = { email: '', password: '' }
+    };
+  }]);
+
+  app.controller('sessionCtrl', ['Auth', '$scope', '$location', function(Auth, $scope, $location) {
+
+    Auth.currentUser().then(function(user){
+      console.log("is authenticated");
+      $scope.isAuthenticated = true;
+    }, function(error){
+      console.log(error);
+    });
+
+    $scope.$on('devise:login', function(event, currentUser){
+      console.log("devise login");
+      $scope.isAuthenticated = true;
+    });
+
+    $scope.$on('devise:new-session', function(event, currentUser){
+      console.log('devise new session');
+      $scope.isAuthenticated = true;
+    });
+
+    $scope.$on('devise:logout', function(event, oldCurrentUser){
+      console.log('devise log out')
+      $scope.isAuthenticated = false;
+    });
+
+    this.logout = function() {
+      // var config = { headers: { 'X-HTTP-Method-Override': 'DELETE' } };
+      Auth.logout().then(function(oldUser) {
+        alert("Successfully logged out!");
+      }, function(error) {
+        alert("Error logging out.");
+      });
+    }
+  }]);
 })();

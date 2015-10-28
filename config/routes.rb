@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :users
   root 'gem_store#index'
 
-  constraints subdomain: 'api' do
-    namespace :api, path: '/' do
-      resources :products
-    end
-  end
+  resources :products, :reviews
 end

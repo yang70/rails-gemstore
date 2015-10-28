@@ -1,5 +1,5 @@
-module API
-  class ProductsController < ApplicationController
+class ProductsController < ApplicationController
+    before_action :authenticate_user!, only: [:edit, :update, :create, :destroy]
 
     def index
       products = Product.all
@@ -27,7 +27,7 @@ module API
     def create
       product = Product.new(product_params)
       if product.save
-        render json: product, status: 201, location: [:api, product]
+        render json: product, status: 201, location: product
       else
         render json: product.errors, status: 422
       end
@@ -45,4 +45,3 @@ module API
       params.require(:product).permit(:name, :price, :description)
     end
   end
-end

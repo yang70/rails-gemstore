@@ -11,6 +11,8 @@ gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 gem 'minitest-rails'
 gem 'active_model_serializers'
+gem 'devise'
+gem 'angular_rails_csrf'
 
 group :development, :test do
   gem 'byebug'
