@@ -1,7 +1,14 @@
 require "test_helper"
 
 class ProductsPatchTest < ActionDispatch::IntegrationTest
-  setup { host! 'api.example.com' }
+
+  def setup
+    sign_in("ruby")
+  end
+
+  def teardown
+    sign_out
+  end
 
   test 'successful update' do
     patch "/products/#{products(:ruby).id}",

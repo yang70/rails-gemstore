@@ -1,7 +1,14 @@
 require "test_helper"
 
 class ProductsDeleteTest < ActionDispatch::IntegrationTest
-  setup { host! 'api.example.com' }
+
+  def setup
+    sign_in("ruby")
+  end
+
+  def teardown
+    sign_out
+  end
 
   test 'deletes a product' do
     delete "/products/#{products(:ruby).id}"
