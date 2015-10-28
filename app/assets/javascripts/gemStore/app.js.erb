@@ -51,7 +51,6 @@
     };
 
     $scope.deleteReview = function(product, review) {
-      alert("hello");
       $http({
         method: 'DELETE',
         url: '/reviews/' + review.id
