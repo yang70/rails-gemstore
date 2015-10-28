@@ -32,9 +32,10 @@
     <div ng-controller="sessionCtrl as session" ng-show="isAuthenticated">
       <button class="btn btn-default" ng-click="session.logout()" />Logout</button>
     </div>
-    <div ng-controller="sessionCtrl" ng-show="isAuthenticated">
+    <div ng-show="isAuthenticated">
       <form name="productForm" ng-controller="ProductController as productCtrl" ng-submit="productCtrl.create(newProduct)" novalidate>
         <input ng-model="newProduct.name" type="text" placeholder="Gem Name" title="Name" />
+        <input ng-model="newProduct.description" type="text" placeholder="Gem Description" title="Description" />
         <input type="submit" value="Submit" />
       </form>
     </div>

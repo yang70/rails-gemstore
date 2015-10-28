@@ -29,6 +29,8 @@
 
   app.controller('ProductController', ['Auth', '$http', '$scope', function(Auth, $http, $scope){
 
+    $scope.showEdit = false;
+
     this.create = function(product){
       $http.post("/products", { product: product }).success(function(data){
         $scope.products.unshift(data.product);
@@ -37,7 +39,33 @@
         console.log(error);
         console.log(status);
       });
-    }
+    };
+
+    $scope.edit = function(editProduct, product){
+      $http.patch('/products/' + product.id, { product: editProduct })
+        .success(function(data){
+          $scope.products.splice($scope.products.indexOf(product), 1, data.product);
+        })
+        .error(function(error, status){
+          console.log(error);
+          console.log(status);
+        });
+    };
+
+    $scope.deleteProduct = function(product){
+      $http({
+        method: 'DELETE',
+        url: '/products/' + product.id
+      })
+        .success(function() {
+          alert("Product deleted");
+          $scope.products.splice($scope.products.indexOf(product), 1);
+        })
+        .error(function() {
+          console.log(data);
+          console.log(status);
+        });
+    };
 
     this.addReview = function(product){
       product.newReview.product_id = product.id;
@@ -86,28 +114,28 @@
     };
   }]);
 
-  app.controller('sessionCtrl', ['Auth', '$scope', '$location', function(Auth, $scope, $location) {
+  app.controller('sessionCtrl', ['Auth', '$scope', '$location', '$rootScope', function(Auth, $scope, $location, $rootScope) {
 
     Auth.currentUser().then(function(user){
       console.log("is authenticated");
-      $scope.isAuthenticated = true;
+      $rootScope.isAuthenticated = true;
     }, function(error){
       console.log(error);
     });
 
     $scope.$on('devise:login', function(event, currentUser){
       console.log("devise login");
-      $scope.isAuthenticated = true;
+      $rootScope.isAuthenticated = true;
     });
 
     $scope.$on('devise:new-session', function(event, currentUser){
       console.log('devise new session');
-      $scope.isAuthenticated = true;
+      $rootScope.isAuthenticated = true;
     });
 
     $scope.$on('devise:logout', function(event, oldCurrentUser){
       console.log('devise log out')
-      $scope.isAuthenticated = false;
+      $rootScope.isAuthenticated = false;
     });
 
     this.logout = function() {
