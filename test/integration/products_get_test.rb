@@ -1,7 +1,14 @@
 require "test_helper"
 
 class ProductsGetTest < ActionDispatch::IntegrationTest
-  setup { host! 'api.example.com' }
+
+  def setup
+    sign_in("ruby")
+  end
+
+  def teardown
+    sign_out
+  end
 
   test 'returns all products' do
     get '/products', {}, { Accept: Mime::JSON }
@@ -15,7 +22,7 @@ class ProductsGetTest < ActionDispatch::IntegrationTest
     product = Product.find_by(name: "Ruby")
     get "/products/#{product.id}"
     assert_equal 200, response.status
-    product = json(response.body)
-    assert_equal "9.99", product[:price]
+    ruby = json(response.body)[:product]
+    assert_equal "9.99", ruby[:price]
   end
 end

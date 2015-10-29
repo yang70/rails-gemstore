@@ -13,6 +13,16 @@
   <div class="panel" ng-show="panel.isSelected(1)">
     <h4>Description</h4>
     <p>{{product.description}}</p>
+    <div ng-controller="ProductController" ng-show="isAuthenticated">
+      <button ng-click="deleteProduct(product)">Delete Product</button>
+      <button ng-click="showEdit = true" ng-hide="showEdit">Edit Product</button>
+      <button ng-click="showEdit = false;" ng-show="showEdit">Cancel Edit</button>
+      <form name="productEditForm" ng-submit="edit(editProduct, product)" ng-show="showEdit" novalidate>
+        <input ng-model="editProduct.name" type="text" placeholder="Change Gem Name" title="Name" />
+        <input ng-model="editProduct.description" type="text" placeholder="Change Gem Description" title="Description" />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
   </div>
   <div class="panel" ng-show="panel.isSelected(2)">
     <h4>Specifications</h4>

@@ -1,7 +1,14 @@
 require "test_helper"
 
 class ProductsCreateTest < ActionDispatch::IntegrationTest
-  setup { host! 'api.example.com' }
+
+  def setup
+    sign_in("ruby")
+  end
+
+  def teardown
+    sign_out
+  end
 
   test 'creates a new product' do
     post '/products',
@@ -14,9 +21,8 @@ class ProductsCreateTest < ActionDispatch::IntegrationTest
       { Accept: Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
     assert_equal 201, response.status
     assert_equal Mime::JSON, response.content_type
-    emerald = json(response.body)
-    assert_equal api_product_url(emerald[:id]), response.location
-    # curl -i -X POST -d 'product[name]=Emerald' http://api.rails-gemstore.dev/products
+    emerald = json(response.body)[:product]
+    assert_equal emerald[:price], "7.0"
   end
 
   test 'does not create without a name' do

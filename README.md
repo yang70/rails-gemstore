@@ -102,11 +102,20 @@ class ProductsPatchTest < ActionDispatch::IntegrationTest
   end
 end
 ```
-Along with the propper formating of the HTTP request `GET, POST, etc.`, the important thing to note is line 4 - `setup { host! 'api.example.com' }` which makes sure the test is pointing to the correct subdomain.
+Along with the proper formatting of the HTTP request `GET, POST, etc.`, the important thing to note is line 4 - `setup { host! 'api.example.com' }` which makes sure the test is pointing to the correct subdomain.
 
 After getting all tests passing I enabled continuous integration by activating the GitHub repository at [Travis CI](https://travis-ci.org).
 
 After all of that, we have a RESTful API!
+
+**Step Three - Devise Authentication and CRUD**
+This final step took a while to implement, including removing some of the API versioning and the api subdomain, for simplicity sake.
+
+It was an exercise in learning `$scope` and how things are triggered, which I definitely don't completely understand yet.  Additionally, getting devise and sessions working required help from these blog posts: [1](http://ademartutor.com/authentication-with-devise-and-angularjs/)(seems to be a dead link now?), [2](https://technpol.wordpress.com/2014/04/17/rails4-angularjs-csrf-and-devise/).  However things are working!
+
+All CRUD actions for Products are working after a sign in, including hiding/showing forms and buttons depending on what is going on and if a user is signed in.
+
+Reviews can be created and deleted, but not edited, however I think that is acceptable.
 
 ## Citation
 * [Active Model Serializers](https://github.com/rails-api/active_model_serializers)
